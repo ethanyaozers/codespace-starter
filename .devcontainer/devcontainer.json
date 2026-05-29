@@ -39,6 +39,15 @@
   // learnr/knitr/xfun chain (see the xfun ABI note in student/Dockerfile).
   "postCreateCommand": "R -q -e 'pak::pkg_install(c(\"PPBDS/tutorial.helpers\", \"PPBDS/vscode.tutorials\"), ask = FALSE)'",
 
+  // Visual "setup complete" signal for students. In the devcontainer
+  // lifecycle, VS Code extensions are installed BEFORE this hook runs, so
+  // by the time this banner prints, everything (extensions, R, Quarto,
+  // the AI CLIs) is genuinely ready — it can't fire early and mislead.
+  // Runs on every container start (it's cheap), which also reassures
+  // students each time they resume a Codespace. If a real setup step is
+  // ever needed, add it ABOVE the banner so the banner stays last.
+  "postStartCommand": "echo '' && echo '════════════════════════════════════════════' && echo '' && echo '   ✅  YOUR CODESPACE IS READY' && echo '' && echo '   All extensions and tools are installed.' && echo '   You can start working now.' && echo '' && echo '════════════════════════════════════════════' && echo ''",
+
   "customizations": {
     "vscode": {
 
